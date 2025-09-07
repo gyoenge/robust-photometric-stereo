@@ -1,15 +1,30 @@
-# PA1: Photometric Stereo
-This repository contains the code for a programming assignment on photometric stereo. The goal of this assignment is to recover the surface normals and albedo of an object from multiple images captured under different lighting conditions, and then to use this information to relight the object under an unknown lighting condition.
+# Robust Photometric Stereo
+## Computer Vision Course Coding Assignment 1 
 
-- Due: 5th, April, 2025
-- TA Session: 1st, April, 2025 and 3rd, April, 2025
-- TA: Wooseok Jeon (jws5271a@gm.gist.ac.kr)
+- Course: GIST Computer Vision (EC4216)
+- Project Type: Robust Photometric Stereo Implementation Individual Coding Assignment
 
-**NO PLAGIARISM, NO DELAY, DON'T USE AI SUPPORTER (If you do not comply, you will get F!)**
+### Overview 
 
-## Overview
+<p align="justify">
+In this project, we implemented a <b>Robust Photometric Stereo pipeline</b> to precisely estimate the 3D surface information of objects from multiple images. First, assuming that objects follow <b>Lambertian reflectance properties</b>, we implemented the traditional Photometric Stereo method based on <b>Least Squares</b>. Next, to effectively handle <b>non-Lambertian outliers</b> such as shadows and highlights that may occur in real-world environments, we applied <b>Robust Principal Component Analysis (RPCA)</b> to build a Robust Photometric Stereo approach.
+</p>
 
-### Before you start, make sure you understand the code flow by reading main.py
+<p align="justify">
+Experiments were conducted on four objects (moai, nike, choonsik, toothless), photographed under <b>11 different lighting conditions with a fixed camera position</b>. Using the albedo maps and surface normals estimated by each method, we performed <b>relighting under novel lighting conditions</b> and quantitatively and qualitatively validated the results.
+</p>
+
+<p align="justify">
+Additionally, to further improve relighting performance, we introduced a method that performs <b>Photometric Factor Classification</b> on the generated images and adjusts brightness by applying different weights to each factor. Compared to the traditional Least Squares-based approach, the Robust Photometric Stereo produced <b>smoother surface normals and reduced outliers in the albedo map</b>, and the photometric factor-based correction effectively reduced relighting errors.
+</p>
+
+<p align="center">
+<img width="80%" alt="image" src="https://github.com/user-attachments/assets/76d739d2-6151-45bf-80b4-8f76d02c6d10" />
+</p>
+
+---
+
+## Description
 
 The provided code follows these main steps:
 1. **Recover Light Directions:**  
@@ -28,7 +43,7 @@ The provided code follows these main steps:
    Generate a relit image of the object using the given light direction, the normal map, and the albedo.  
    *Fill the #todo blank in* `relight_object`
 
-## Directory Structure
+### Directory Structure
 ```
 . 
 ├── input/                  # Input dataset directory 
@@ -45,7 +60,7 @@ The provided code follows these main steps:
 └── relight.py              # Module to implement relight_object 
 ```
 
-## Requirements
+### Requirements
 
 - **Python Version:** 3.6 or above
 - **Libraries:**  
@@ -60,7 +75,7 @@ You can install the required libraries using pip:
 pip install opencv-python numpy tqdm
 ```
 
-## Usage
+### Usage
 Run the main script from the command line. The script accepts the following
 
 arguments:
@@ -70,7 +85,7 @@ arguments:
 - `-i` or `--image_cnt`: Number of images to use (default: 11)
 
 
-## Implementation Steps
+### Implementation Steps
 
 1. Light Direction Recovery:
    - Loads chromeball images and the corresponding mask.
@@ -95,7 +110,7 @@ arguments:
    - Computes the Mean Squared Error (MSE) between the unknown image and the relit image.
    - Saves the relit image and the MSE value.
 
-## Output
+### Output
 The script generates the following outputs for each object:
 
 - Light Direction: Saved as light_dir.npy.
